@@ -78,6 +78,7 @@
         - Add configuration for setting Content-Security-Policy header.
         - Add banner on staging website/emails, and STAGING_FLAGS option to hide it.
         - Do not hard code site name in database fixture.
+        - Add fetch script that does combined job of fetch-comments and fetch-reports.
     - Open311 improvements:
         - Support use of 'private' service definition <keywords> to mark
           reports made in that category private. #2488

@@ -68,21 +68,22 @@ sub process_body {
 
     my @args = ();
 
-    if ( $self->start_date || $self->end_date ) {
-        return 0 unless $self->start_date && $self->end_date;
+    my $dt = DateTime->now();
+    # Oxfordshire uses local time and not UTC for dates
+    FixMyStreet->set_time_zone($dt) if $body->areas->{$AREA_ID_OXFORDSHIRE};
 
-        push @args, $self->start_date;
-        push @args, $self->end_date;
     # default to asking for last 2 hours worth if not Bromley
+    if ($self->start_date) {
+        push @args, DateTime::Format::W3CDTF->format_datetime( $self->start_date );
     } elsif ( ! $body->areas->{$AREA_ID_BROMLEY} ) {
-        my $end_dt = DateTime->now();
-        # Oxfordshire uses local time and not UTC for dates
-        FixMyStreet->set_time_zone($end_dt) if ( $body->areas->{$AREA_ID_OXFORDSHIRE} );
-        my $start_dt = $end_dt->clone;
-        $start_dt->add( hours => -2 );
-
+        my $start_dt = $dt->clone->add( hours => -2 );
         push @args, DateTime::Format::W3CDTF->format_datetime( $start_dt );
-        push @args, DateTime::Format::W3CDTF->format_datetime( $end_dt );
+    }
+
+    if ($self->end_date) {
+        push @args, DateTime::Format::W3CDTF->format_datetime( $self->end_date );
+    } elsif ( ! $body->areas->{$AREA_ID_BROMLEY} ) {
+        push @args, DateTime::Format::W3CDTF->format_datetime( $dt );
     }
 
     my $requests = $open311->get_service_request_updates( @args );
