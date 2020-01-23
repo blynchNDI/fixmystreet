@@ -3,6 +3,9 @@
 
 <form method="get" action="[% c.uri_for_action('admin/reports/index') %]" enctype="application/x-www-form-urlencoded" accept-charset="utf-8">
     <p><label for="search">[% loc('Search:') %]</label> <input type="text" name="search"  size="30" id="search" value="[% searched | html %]">
+  [% IF c.get_param('internal') %]
+    <input type="hidden" name="internal" value="1">
+  [% END %]
 </form>
 
 [% IF problems.size %]

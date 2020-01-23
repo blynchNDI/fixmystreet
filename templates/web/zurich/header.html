@@ -44,8 +44,11 @@
             <li [% IF pagename == 'summary' OR pagename == '' %]class="current"[% END %]>
                 <a href="/admin/summary">[% loc('Summary') %]</a>
             </li>
-            <li [% IF pagename == 'reports' OR pagename == 'report_edit' %]class="current"[% END %]>
+            <li [% IF NOT c.get_param('internal') AND (pagename == 'reports' OR pagename == 'report_edit') %]class="current"[% END %]>
                 <a href="/admin/reports">[% loc('Reports') %]</a>
+            </li>
+            <li [% IF c.get_param('internal') AND pagename == 'reports' %]class="current"[% END %]>
+                <a href="/admin/reports?internal=1">Interne Meldungen</a>
             </li>
             [% IF admin_type == 'dm' OR admin_type == 'super' %]
             <li [% IF pagename == 'bodies' OR pagename == 'body' %]class="current"[% END %]>

@@ -482,12 +482,14 @@ sub admin {
         $c->stash->{submitted} = $c->cobrand->problems->search({
             state => [ 'submitted', 'confirmed' ],
             bodies_str => $c->stash->{body}->id,
+            non_public => 0,
         }, {
             order_by => $order,
         });
         $c->stash->{approval} = $c->cobrand->problems->search({
             state => 'feedback pending',
             bodies_str => $c->stash->{body}->id,
+            non_public => 0,
         }, {
             order_by => $order,
         });
@@ -496,6 +498,7 @@ sub admin {
         $c->stash->{other} = $c->cobrand->problems->search({
             state => { -not_in => [ 'submitted', 'confirmed', 'feedback pending' ] },
             bodies_str => \@all,
+            non_public => 0,
         }, {
             order_by => $order,
         })->page( $page );
@@ -511,12 +514,14 @@ sub admin {
         $c->stash->{reports_new} = $c->cobrand->problems->search( {
             state => 'in progress',
             bodies_str => $body->id,
+            non_public => 0,
         }, {
             order_by => $order
         } );
         $c->stash->{reports_unpublished} = $c->cobrand->problems->search( {
             state => 'feedback pending',
             bodies_str => $body->parent->id,
+            non_public => 0,
         }, {
             order_by => $order
         } );
@@ -525,6 +530,7 @@ sub admin {
         $c->stash->{reports_published} = $c->cobrand->problems->search( {
             state => 'fixed - council',
             bodies_str => $body->parent->id,
+            non_public => 0,
         }, {
             order_by => $order
         } )->page( $page );

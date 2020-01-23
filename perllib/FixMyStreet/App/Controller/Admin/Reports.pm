@@ -37,6 +37,7 @@ sub index : Path {
         } elsif ( $type eq 'sdm' ) {
             $query = { bodies_str => $body->id };
         }
+        $query->{non_public} = $c->get_param('internal') ? 1 : 0;
     }
 
     my $order = $c->get_param('o') || 'id';
