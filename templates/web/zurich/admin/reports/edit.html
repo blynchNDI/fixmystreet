@@ -117,6 +117,10 @@
 
 <div class="admin-report-edit admin-report-edit--interact">
 
+[% IF problem.non_public %]
+<p align="right" class="screen-only"><input type="submit" class="btn" name="stop_internal" value="[% loc('Not internal') %]"></p>
+[% END %]
+
 [% status_message | safe %]
 
 <dl [% IF status_message %]class="with-message"[% END %]>

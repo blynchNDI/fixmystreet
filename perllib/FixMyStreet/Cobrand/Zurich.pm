@@ -551,6 +551,18 @@ sub category_options {
     $c->stash->{category_options} = \@categories;
 }
 
+sub report_remove_internal_flag {
+    my $self = shift;
+    my $c = $self->{c};
+    my $problem = $c->stash->{problem};
+    $c->forward('/auth/check_csrf_token');
+    $problem->non_public(0);
+    $problem->update;
+    $c->forward('/admin/log_edit', [ $problem->id, 'problem', _('Removed internal flag') ]);
+    # Make sure the problem's time_spent is updated
+    $self->update_admin_log($c, $problem);
+}
+
 sub admin_report_edit {
     my $self = shift;
     my $c = $self->{c};
@@ -630,6 +642,10 @@ sub admin_report_edit {
         }
     }
 
+    if ( ($type eq 'super' || $type eq 'dm') && $c->get_param('stop_internal') ) {
+        $self->report_remove_internal_flag;
+        return $c->res->redirect( '/admin/summary' );
+    }
 
     # Problem updates upon submission
     if ( ($type eq 'super' || $type eq 'dm') && $c->get_param('submit') ) {
@@ -911,6 +927,9 @@ sub admin_report_edit {
                     : _('Sent report back') ] );
             # Make sure the problem's time_spent is updated
             $self->update_admin_log($c, $problem);
+            $c->res->redirect( '/admin/summary' );
+        } elsif ($editable && $c->get_param('stop_internal')) {
+            $self->report_remove_internal_flag;
             $c->res->redirect( '/admin/summary' );
         } elsif ($editable && $c->get_param('submit')) {
             $c->forward('/auth/check_csrf_token');
