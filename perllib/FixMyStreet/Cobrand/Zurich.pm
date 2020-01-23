@@ -931,6 +931,10 @@ sub admin_report_edit {
         } elsif ($editable && $c->get_param('stop_internal')) {
             $self->report_remove_internal_flag;
             $c->res->redirect( '/admin/summary' );
+        } elsif ($editable && $c->get_param('close_internal')) {
+            $self->set_problem_state($c, $problem, 'fixed - council');
+            $problem->update;
+            $c->res->redirect( '/admin/summary' );
         } elsif ($editable && $c->get_param('submit')) {
             $c->forward('/auth/check_csrf_token');
 
