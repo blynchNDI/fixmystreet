@@ -9,8 +9,15 @@ sub council_area { return 'Hackney'; }
 sub council_name { return 'London Borough of Hackney'; }
 sub council_url { return 'hackney'; }
 
-sub example_places {
-    return [ 'E8 1DY', 'Hillman Street' ];
+sub disambiguate_location {
+    my $self    = shift;
+    my $string  = shift;
+
+    return {
+        %{ $self->SUPER::disambiguate_location() },
+        centre => '51.552267,-0.063316',
+        bounds => [ 51.519814, -0.104511, 51.577784, -0.016527 ],
+    };
 }
 
 1;
