@@ -1424,8 +1424,7 @@ sub hook_report_filter_status {
 sub report_new_munge_before_insert {
     my ($self, $report) = @_;
 
-    my $c = $self->{c};
-    if ($c->user_exists && $c->user->flagged) {
+    if ($report->user->flagged) {
         $report->non_public(1);
     }
 }
