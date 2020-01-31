@@ -9,8 +9,10 @@ my $superuser = $mech->create_user_ok('superuser@example.com', name => 'Super Us
 $mech->log_in_ok( $superuser->email );
 
 FixMyStreet::override_config {
-    ALLOWED_COBRANDS => [ 'lincolnshire' ],
+    ALLOWED_COBRANDS => [ 'lincolnshire', 'fixmystreet' ],
 }, sub {
+
+ok $mech->host('lincolnshire.fixmystreet.com');
 
 subtest "theme link on cobrand admin goes to create form if no theme exists" => sub {
     is( FixMyStreet::DB->resultset('ManifestTheme')->count, 0, "no themes yet" );
@@ -226,12 +228,7 @@ subtest "can't edit another cobrand's theme" => sub {
     is $mech->res->code, 404, "got 404";
 };
 
-};
-
-
-FixMyStreet::override_config {
-    ALLOWED_COBRANDS => [ 'fixmystreet' ],
-}, sub {
+ok $mech->host('www.fixmystreet.com');
 
 subtest "fms cobrand lets you view all manifest themes" => sub {
     is( FixMyStreet::DB->resultset('ManifestTheme')->count, 1, "theme already exists" );
@@ -303,6 +300,37 @@ subtest "fms cobrand prevents creating a duplicate by editing" => sub {
     $mech->submit_form_ok( { with_fields => $fields } );
     is $mech->uri->path, '/admin/manifesttheme/tfl', "stayed on edit page";
 };
+
+};
+
+FixMyStreet::override_config {
+    ALLOWED_COBRANDS => [ 'fixamingata' ],
+}, sub {
+
+ok $mech->host("www.fixamingata.se"), "change host to FixaMinGata";
+
+subtest "single cobrand behaves correctly" => sub {
+    FixMyStreet::DB->resultset('ManifestTheme')->delete_all;
+    is( FixMyStreet::DB->resultset('ManifestTheme')->count, 0, "themes all deleted" );
+
+    $mech->get_ok("/admin/manifesttheme");
+    is $mech->uri->path, '/admin/manifesttheme/create', "redirected to create page";
+
+    my $fields = {
+        name => "FixaMinGata Theme Test",
+        short_name => "FixaMinGata Short Name",
+        cobrand => "fixamingata",
+    };
+    $mech->submit_form_ok( { with_fields => $fields } );
+    is $mech->uri->path, '/admin/manifesttheme/fixamingata', "redirected to edit form page";
+    $mech->content_contains("FixaMinGata Theme Test");
+    $mech->content_contains("FixaMinGata Short Name");
+
+    is( FixMyStreet::DB->resultset('ManifestTheme')->count, 1, "theme added" );
+    my $theme = FixMyStreet::DB->resultset('ManifestTheme')->find({ cobrand => 'fixamingata' });
+    is $theme->name, "FixaMinGata Theme Test";
+};
+
 
 };
 

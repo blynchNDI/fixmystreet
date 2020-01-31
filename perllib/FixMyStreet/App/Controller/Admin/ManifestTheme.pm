@@ -9,7 +9,7 @@ use FixMyStreet::App::Form::ManifestTheme;
 sub auto :Private {
     my ($self, $c) = @_;
 
-    if ( $c->cobrand->moniker =~ /^default|fixmystreet$/ ) {
+    if ( $c->cobrand->moniker eq 'fixmystreet' ) {
         $c->stash(rs => $c->model('DB::ManifestTheme')->search_rs({}), show_all => 1);
     } else {
         $c->stash(rs => $c->model('DB::ManifestTheme')->search_rs({ cobrand => $c->cobrand->moniker }));
@@ -19,7 +19,7 @@ sub auto :Private {
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    unless ( $c->cobrand->moniker =~ /^default|fixmystreet$/ ) {
+    unless ( $c->stash->{show_all} ) {
         if ( $c->stash->{rs}->count ) {
             $c->res->redirect($c->uri_for($self->action_for('edit'), [ $c->stash->{rs}->first->cobrand ]));
         } else {
@@ -53,7 +53,7 @@ sub edit :PathPart('') :Chained('item') :Args(0) {
 sub create :Local :Args(0) {
     my ($self, $c) = @_;
 
-    if ( !( $c->cobrand->moniker =~ /^default|fixmystreet$/ ) && $c->stash->{rs}->count ) {
+    unless ( $c->stash->{show_all} || $c->stash->{rs}->count == 0) {
         $c->res->redirect($c->uri_for($self->action_for('edit'), [ $c->stash->{rs}->first->cobrand ]));
         $c->detach;
     }
