@@ -77,7 +77,7 @@ sub index : Path : Args(0) {
         $c->detach;
     }
 
-    $c->forward('/offline/_stash_manifest_icons', [ $c->cobrand->moniker ]);
+    $c->forward('/offline/_stash_manifest_theme', [ $c->cobrand->moniker ]);
 
     $c->forward('/auth/get_csrf_token');
 }

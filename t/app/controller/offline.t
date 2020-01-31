@@ -1,6 +1,7 @@
 use FixMyStreet::TestMech;
 use FixMyStreet::DB;
 use Path::Tiny;
+use Memcached;
 
 my $mech = FixMyStreet::TestMech->new;
 
@@ -22,6 +23,7 @@ FixMyStreet::override_config {
         }, 'correct icon';
     };
     subtest 'themed manifest' => sub {
+        Memcached::set("manifest_theme:test", "");
         FixMyStreet::DB->resultset('ManifestTheme')->create({
             cobrand => "test",
             name => "My Test Cobrand FMS",
