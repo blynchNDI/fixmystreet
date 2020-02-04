@@ -538,6 +538,53 @@ fixmystreet.assets.add(northants_road_defaults, {
 });
 
 
+function ncc_match_prow_type(f, styleId) {
+    return f &&
+           f.attributes &&
+           f.attributes.layerStyleId &&
+           f.attributes.layerStyleId == styleId;
+}
+
+function ncc_prow_is_fp(f) {
+    return ncc_match_prow_type(f, 1454);
+}
+
+function ncc_prow_is_bw(f) {
+    return ncc_match_prow_type(f, 1453);
+}
+
+function ncc_prow_is_boat(f) {
+    return ncc_match_prow_type(f, 1455);
+}
+
+var rule_footpath = new OpenLayers.Rule({
+    filter: new OpenLayers.Filter.FeatureId({
+        type: OpenLayers.Filter.Function,
+        evaluate: ncc_prow_is_fp
+    }),
+    symbolizer: {
+        strokeColor: "#904098",
+    }
+});
+var rule_boat = new OpenLayers.Rule({
+    filter: new OpenLayers.Filter.FeatureId({
+        type: OpenLayers.Filter.Function,
+        evaluate: ncc_prow_is_boat
+    }),
+    symbolizer: {
+        strokeColor: "#7A5046",
+    }
+});
+var rule_bridleway = new OpenLayers.Rule({
+    filter: new OpenLayers.Filter.FeatureId({
+        type: OpenLayers.Filter.Function,
+        evaluate: ncc_prow_is_bw
+    }),
+    symbolizer: {
+        strokeColor: "#26A36B",
+    }
+});
+
 var prow_style = new OpenLayers.Style({
     fill: false,
     strokeColor: "#115511",
@@ -545,10 +592,12 @@ var prow_style = new OpenLayers.Style({
     strokeWidth: 7
 });
 
+prow_style.addRules([rule_footpath, rule_boat, rule_bridleway]);
+
 fixmystreet.assets.add(northants_road_defaults, {
     http_options: {
-      layerid: 173,
-      layerVersion: '173.3-',
+      layerid: 310,
+      layerVersion: '310.1-',
     },
     stylemap: new OpenLayers.StyleMap({
         'default': prow_style
