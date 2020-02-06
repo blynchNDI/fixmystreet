@@ -137,6 +137,22 @@ sub open311_config_updates {
     $params->{use_customer_reference} = 1;
 }
 
+sub open311_pre_send {
+    my ($self, $row, $open311) = @_;
+
+    if ($row->get_extra_field_value('feature_id')) {
+        my $text = $row->detail;
+        $text .= "\n\nAsset Id: " . $row->get_extra_field_value('feature_id') . "\n";
+        $row->detail($text);
+    }
+
+    if ($row->get_extra_field_value('usrn')) {
+        my $text = $row->detail;
+        $text .= "\n\nUSRN: " . $row->get_extra_field_value('usrn') . "\n";
+        $row->detail($text);
+    }
+}
+
 sub should_skip_sending_update {
     my ($self, $update ) = @_;
 

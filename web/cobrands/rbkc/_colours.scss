@@ -1,0 +1,37 @@
+/* LAYOUT */
+
+// If you are wanting a right-to-left layout, uncomment the following line.
+// $direction: right;
+
+$heading-font: 'Montserrat', sans-serif;
+$body-font: 'Source Sans Pro', sans-serif;
+
+
+/* COLOURS */
+
+$blue: #007fc5;
+$mint: #5ccbb7;
+$grey: #f5f5f0;
+
+$primary: $grey;
+$primary_b: #000000;
+$primary_text: #222222;
+
+$base_bg: white;
+$base_fg: #000;
+
+$nav_background_colour: #eee;
+$nav_colour: #000;
+$nav_hover_background_colour: $primary;
+
+// Colour used for front page 'how to report a problem' steps
+$col_big_numbers: #ccc;
+
+$col_click_map: gray;
+
+$menu-image: 'menu-black';
+
+$front_main_background: white;
+// $header-top-border: false;
+
+$mappage-header-height: 115px; // TODO double check this is correct - can we use EMs

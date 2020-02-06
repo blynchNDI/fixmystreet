@@ -208,13 +208,19 @@ fixmystreet.assets.add(fixmystreet.maps.banes_defaults, {
     no_asset_msg_id: '#js-not-a-road',
     cat_map: {
       'Damage to pavement': 'pavement',
-      'Damage to road': 'road'
+      'Damage to road': 'road',
+      'Blocked drain': 'road',
+      'Blocked drain surface': 'road',
+      'Flooding of a road or pavement': 'road'
     },
     actions: {
         found: fixmystreet.message_controller.road_found,
         not_found: function(layer) {
             var cat = $('select#form_category').val();
-            if (cat === 'Damage to pavement' || cat === 'Damage to road') {
+            if (cat === 'Damage to pavement' || cat === 'Damage to road' ||
+                cat === 'Blocked drain' || cat === 'Blocked drain surface' ||
+                cat === 'Flooding of a road or pavement'
+            ) {
                 layer.fixmystreet.asset_item = layer.fixmystreet.cat_map[cat];
                 fixmystreet.message_controller.road_not_found(layer);
             } else {

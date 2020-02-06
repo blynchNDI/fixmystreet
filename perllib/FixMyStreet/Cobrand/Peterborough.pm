@@ -43,9 +43,10 @@ sub admin_user_domain { "peterborough.gov.uk" }
 around 'open311_config' => sub {
     my ($orig, $self, $row, $h, $params) = @_;
 
-    # remove the emergency category which is informational only
+    # remove categories which are informational only
     my $extra = $row->get_extra_fields;
     @$extra = grep { $_->{name} ne 'emergency' } @$extra;
+    @$extra = grep { $_->{name} ne 'private_land' } @$extra;
     $row->set_extra_fields(@$extra);
 
     $self->$orig($row, $h, $params);
@@ -67,6 +68,12 @@ sub open311_munge_update_params {
     # Peterborough want to make it clear in Confirm when an update has come
     # from FMS.
     $params->{description} = "[Customer FMS update] " . $params->{description};
+
+    # Send the FMS problem ID with the update.
+    $params->{service_request_id_ext} = $comment->problem->id;
+
+    my $contact = $comment->problem->category_row;
+    $params->{service_code} = $contact->email;
 }
 
 1;
