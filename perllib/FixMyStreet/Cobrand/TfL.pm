@@ -517,6 +517,7 @@ sub _tlrn_categories { [
 sub _cleaning_categories { [
     'Street cleaning',
     'Street Cleaning',
+    'Street cleaning and litter',
     'Accumulated Litter',
     'Street Cleaning Enquiry',
     'Street Cleansing',
@@ -528,7 +529,7 @@ sub _cleaning_categories { [
     'Fly tipping - Enforcement Request',
 ] }
 
-sub _cleaning_groups { [ 'Street cleaning' ] }
+sub _cleaning_groups { [ 'Street cleaning', 'Fly-tipping' ] }
 
 sub _tfl_council_categories { [
     'General Litter / Rubbish Collection',
