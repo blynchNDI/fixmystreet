@@ -563,7 +563,7 @@ var rule_footpath = new OpenLayers.Rule({
         evaluate: ncc_prow_is_fp
     }),
     symbolizer: {
-        strokeColor: "#904098",
+        strokeColor: "#800000",
     }
 });
 var rule_boat = new OpenLayers.Rule({
@@ -572,7 +572,7 @@ var rule_boat = new OpenLayers.Rule({
         evaluate: ncc_prow_is_boat
     }),
     symbolizer: {
-        strokeColor: "#7A5046",
+        strokeColor: "#964b00",
     }
 });
 var rule_bridleway = new OpenLayers.Rule({
@@ -581,14 +581,14 @@ var rule_bridleway = new OpenLayers.Rule({
         evaluate: ncc_prow_is_bw
     }),
     symbolizer: {
-        strokeColor: "#26A36B",
+        strokeColor: "#008000",
     }
 });
 
 var prow_style = new OpenLayers.Style({
     fill: false,
     strokeColor: "#115511",
-    strokeOpacity: 0.1,
+    strokeOpacity: 0.2,
     strokeWidth: 7
 });
 
