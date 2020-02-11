@@ -83,6 +83,26 @@ sub munge_reports_categories_list {
     }
 }
 
+sub munge_reports_area_list {
+    my ($self, $areas) = @_;
+    my $c = $self->{c};
+    if ($c->stash->{body}->name eq 'TfL') {
+        my %london_hash = map { $_ => 1 } FixMyStreet::Cobrand::TfL->london_boroughs;
+        @$areas = grep { $london_hash{$_} } @$areas;
+    }
+}
+
+sub munge_report_new_bodies {
+    my ($self, $bodies) = @_;
+
+    my %bodies = map { $_->name => 1 } values %$bodies;
+    if ( $bodies{'TfL'} ) {
+        # Presented categories vary if we're on/off a red route
+        my $tfl = FixMyStreet::Cobrand->get_class_for_moniker( 'tfl' )->new({ c => $self->{c} });
+        $tfl->munge_surrounding_london($bodies);
+    }
+}
+
 sub munge_report_new_contacts {
     my ($self, $contacts) = @_;
 
