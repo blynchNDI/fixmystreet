@@ -6,7 +6,8 @@ use warnings;
 
 sub council_area_id { return 2508; }
 sub council_area { return 'Hackney'; }
-sub council_name { return 'London Borough of Hackney'; }
+sub council_name { return 'Hackney Council'; }
+sub link_to_council_cobrand { return 'Hackney Council' }
 sub council_url { return 'hackney'; }
 
 sub disambiguate_location {
