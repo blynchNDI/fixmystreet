@@ -15,7 +15,7 @@ has 'cobrand' => ( isa => 'Str', is => 'ro' );
 has '+widget_name_space' => ( default => sub { ['FixMyStreet::App::Form::Widget'] } );
 has '+widget_tags' => ( default => sub { { wrapper_tag => 'p' } } );
 has '+item_class' => ( default => 'ManifestTheme' );
-has_field 'cobrand' => ( type => 'Select', empty_select => 'Select a cobrand', required => 0 );
+has_field 'cobrand' => ( type => 'Select', empty_select => 'Select a cobrand', required => 1 );
 has_field 'name' => ( required => 1 );
 has_field 'short_name' => ( required => 1 );
 has_field 'background_colour' => ( required => 0 );
