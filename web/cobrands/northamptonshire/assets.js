@@ -612,7 +612,7 @@ var rule_bridleway = new OpenLayers.Rule({
 var prow_style = new OpenLayers.Style({
     fill: false,
     strokeColor: "#115511",
-    strokeOpacity: 0.4,
+    strokeOpacity: 0.8,
     strokeWidth: 7
 });
 
