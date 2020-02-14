@@ -14,6 +14,9 @@ sub auto :Private {
     } else {
         $c->stash(rs => $c->model('DB::ManifestTheme')->search_rs({ cobrand => $c->cobrand->moniker }));
     }
+    # We need to unset the default manifest_theme from Root::auto, otherwise
+    # the default icons will appear on our editing form.
+    delete $c->stash->{manifest_theme};
 }
 
 sub index :Path :Args(0) {
