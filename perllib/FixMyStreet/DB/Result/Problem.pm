@@ -677,7 +677,7 @@ sub body {
     } else {
         my $bodies = $problem->bodies;
         my @body_names = sort map {
-            my $name = $_->name;
+            my $name = $_->cobrand_name;
             if ($c and FixMyStreet->config('AREA_LINKS_FROM_PROBLEMS')) {
                 '<a href="' . $_->url . '">' . FixMyStreet::Template::html_filter($name) . '</a>';
             } else {

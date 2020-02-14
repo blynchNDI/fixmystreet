@@ -340,6 +340,8 @@ sub moderating_user_name {
     my $body = $self->body;
     if ( $body && $body eq 'Isle of Wight Council' ) {
         $body = 'Island Roads';
+    } elsif ( $body && $body eq 'Hackney Borough Council' ) {
+        $body = 'Hackney Council';
     }
     return $body || _('an administrator');
 }
